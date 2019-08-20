@@ -5,14 +5,23 @@ import Axios from 'axios';
 
 function App() {
   const [list, setList] = useState('');
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    Axios.get('/api').then(result => setList(result.data));
+    setLoading(true);
+    Axios.get('/api').then(result => {
+      setList(result.data);
+      setLoading(false);
+    });
   }, []);
 
   return (
     <div>
       <h1>hello world</h1>
-      <ReactJson src={list} theme="hop scotch" />
+      {loading ? (
+        <span>Loading...</span>
+      ) : (
+        <ReactJson src={list} theme="hop scotch" />
+      )}
     </div>
   );
 }
